@@ -198,7 +198,7 @@
             if (!printerId) return;
 
             try {
-                const response = await fetch('https://localhost:7061/api/cartridges');
+                const response = await fetch('/api/cartridges');
                 const cartridges = await response.json();
 
                 const results = cartridges.filter(c => c.printerId == printerId);
@@ -214,7 +214,7 @@
             if (!cartridgeModel) return;
 
             try {
-                const response = await fetch('https://localhost:7061/api/cartridges');
+                const response = await fetch('/api/cartridges');
                 const cartridges = await response.json();
 
                 const results = cartridges.filter(c => c.cartridgeModel === cartridgeModel);
@@ -264,7 +264,7 @@
 
         async function bookCartridge(cartridgeId) {
             try {
-                const response = await fetch(`https://localhost:7061/api/cartridges/book/${cartridgeId}`, {
+                const response = await fetch(`/api/cartridges/book/${cartridgeId}`, { 
                     method: 'POST'
                 });
 
@@ -279,7 +279,7 @@
 
         async function cancelBooking(cartridgeId) {
             try {
-                const response = await fetch(`https://localhost:7061/api/cartridges/cancel/${cartridgeId}`, {
+                const response = await fetch(`/api/cartridges/book/${cartridgeId}`, {  // ✅ Относительный путь
                     method: 'POST'
                 });
 
@@ -307,7 +307,7 @@
 
         async function loadAllCartridges() {
             try {
-                const response = await fetch('https://localhost:7061/api/cartridges');
+                const response = await fetch('/api/cartridges');
                 const cartridges = await response.json();
 
                 displayResults(cartridges, 'Все доступные картриджи:');

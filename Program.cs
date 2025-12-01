@@ -7,25 +7,23 @@ var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
 
-builder.Services.AddRazorPages();
 builder.Services.AddControllers();
-
-// ✅ БАЗА ДАННЫХ - для демо используем InMemory
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("CartridgeDB"));
 
 var app = builder.Build();
 
-// ✅ НАСТРОЙКА СТАТИЧЕСКИХ ФАЙЛОВ
-app.UseStaticFiles();
+// ✅ ОЧЕНЬ ВАЖНО: Настройка статических файлов ДО маршрутизации
+app.UseDefaultFiles(); // Это позволяет обслуживать index.html, login.html и т.д.
+app.UseStaticFiles();  // Это обслуживает файлы из wwwroot
+
 app.UseRouting();
 app.UseAuthorization();
 
-app.MapRazorPages();
 app.MapControllers();
 
-// ✅ ПРОСТОЙ MAP ДЛЯ ГЛАВНОЙ СТРАНИЦЫ
-app.MapFallbackToFile("login.html"); // ← Это отправляет все запросы на login.html
+// ✅ Fallback на login.html
+app.MapFallbackToFile("login.html");
 
 // ✅ ТЕСТОВЫЕ ДАННЫЕ
 using (var scope = app.Services.CreateScope())

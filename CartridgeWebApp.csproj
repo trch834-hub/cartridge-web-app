@@ -7,9 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="admin.html" />
-		<Content Include="login.html" />
-		<Content Include="user.html" />
+	  <None Include="wwwroot\admin.html" />
+	  <None Include="wwwroot\login.html" />
+	  <None Include="wwwroot\user.html" />
 	</ItemGroup>
 
 	<ItemGroup>
