@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в систему - Картриджи</title>
+    <style>
+        /* ИЗОЛИРОВАННЫЕ СТИЛИ ДЛЯ LOGIN */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .login-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .login-form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+            .login-input:focus {
+                outline: none;
+                border-color: #3498db;
+            }
+
+        .login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .login-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+            .login-btn-primary:hover {
+                background: #2980b9;
+            }
+
+        .login-btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+            .login-btn-success:hover {
+                background: #229954;
+            }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="login-title">🔐 Вход в систему</h1>
+
+        <div class="login-form-group">
+            <label class="login-label">👤 Логин:</label>
+            <input type="text" class="login-input" id="username" placeholder="Введите логин">
+        </div>
+
+        <div class="login-form-group">
+            <label class="login-label">🔒 Пароль:</label>
+            <input type="password" class="login-input" id="password" placeholder="Введите пароль">
+        </div>
+
+        <div class="login-buttons">
+            <button class="login-btn login-btn-primary" onclick="checkAdminLogin()">🛠️ Войти как Админ</button>
+            <button class="login-btn login-btn-success" onclick="enterAsUser()">👤 Войти как Пользователь</button>
+        </div>
+    </div>
+
+    <script>
+        async function checkAdminLogin() {
+            const login = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (!login || !password) {
+                alert("❌ Введите логин и пароль!");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: login,
+                        password: password
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    if (result.role === "Admin") {
+                        window.location.href = "admin.html";
+                    } else {
+                        window.location.href = "user.html";
+                    }
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('❌ Ошибка подключения к серверу');
+            }
+        }
+
+        function enterAsUser() {
+            window.location.href = "user.html";
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('username').focus();
+        });
+    </script>
+</body>
+</html>
