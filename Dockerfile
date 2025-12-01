@@ -1,21 +1,25 @@
-# Используем .NET 8.0 SDK для сборки
+п»ї# РСЃРїРѕР»СЊР·СѓРµРј .NET 8.0 SDK РґР»СЏ СЃР±РѕСЂРєРё
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Копируем файл проекта и восстанавливаем зависимости
+# РљРѕРїРёСЂСѓРµРј С„Р°Р№Р» РїСЂРѕРµРєС‚Р° Рё РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·Р°РІРёСЃРёРјРѕСЃС‚Рё
 COPY ["CartridgeWebApp.csproj", "./"]
 RUN dotnet restore "CartridgeWebApp.csproj"
 
-# Копируем все файлы и собираем
+# РљРѕРїРёСЂСѓРµРј РІСЃРµ С„Р°Р№Р»С‹ Рё СЃРѕР±РёСЂР°РµРј
 COPY . .
 RUN dotnet build "CartridgeWebApp.csproj" -c Release -o /app/build
 
-# Публикуем приложение
+# РџСѓР±Р»РёРєСѓРµРј РїСЂРёР»РѕР¶РµРЅРёРµ
 FROM build AS publish
 RUN dotnet publish "CartridgeWebApp.csproj" -c Release -o /app/publish
 
-# Финальный образ для запуска
+# Р¤РёРЅР°Р»СЊРЅС‹Р№ РѕР±СЂР°Р· РґР»СЏ Р·Р°РїСѓСЃРєР°
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
+
+# вњ… РљРћРџРР РЈР•Рњ Р’РЎР• Р¤РђР™Р›Р« Р’РљР›Р®Р§РђРЇ wwwroot
 COPY --from=publish /app/publish .
+COPY wwwroot ./wwwroot/
+
 ENTRYPOINT ["dotnet", "CartridgeWebApp.dll"]

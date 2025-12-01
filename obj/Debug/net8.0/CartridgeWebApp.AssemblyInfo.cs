@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CartridgeWebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2818a8ad1d49fa6394d7a374e97c2718466362df")]
 [assembly: System.Reflection.AssemblyProductAttribute("CartridgeWebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CartridgeWebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
