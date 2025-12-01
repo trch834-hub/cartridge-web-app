@@ -1,0 +1,92 @@
+[
+  {
+    "ContainingType": "CartridgeWebApp.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CartridgeWebApp.Controllers.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CartridgeWebApp.Controllers.CartridgesController",
+    "Method": "GetCartridges",
+    "RelativePath": "api/Cartridges",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CartridgeWebApp.Controllers.CartridgesController",
+    "Method": "CreateCartridge",
+    "RelativePath": "api/Cartridges",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartridge",
+        "Type": "CartridgeWebApp.Models.Cartridge",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CartridgeWebApp.Controllers.CartridgesController",
+    "Method": "DeleteCartridge",
+    "RelativePath": "api/Cartridges/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CartridgeWebApp.Controllers.CartridgesController",
+    "Method": "BookCartridge",
+    "RelativePath": "api/Cartridges/book/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CartridgeWebApp.Controllers.CartridgesController",
+    "Method": "CancelBooking",
+    "RelativePath": "api/Cartridges/cancel/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

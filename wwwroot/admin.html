@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора</title>
+    <style>
+        /* ИЗОЛИРОВАННЫЕ СТИЛИ ДЛЯ ADMIN */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .admin-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .admin-section {
+            margin: 25px 0;
+        }
+
+        .admin-section-title {
+            color: #34495e;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 15px;
+                text-align: left;
+                border-bottom: 1px solid #ecf0f1;
+            }
+
+            .admin-table th {
+                background: #34495e;
+                color: white;
+                font-weight: bold;
+            }
+
+            .admin-table tr:hover {
+                background-color: #f8f9fa;
+            }
+
+        .admin-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .admin-btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+            .admin-btn-primary:hover {
+                background: #2980b9;
+            }
+
+        .admin-btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+            .admin-btn-success:hover {
+                background: #229954;
+            }
+
+        .admin-btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+            .admin-btn-danger:hover {
+                background: #c0392b;
+            }
+
+        .admin-form-group {
+            margin-bottom: 15px;
+        }
+
+        .admin-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .admin-input, .admin-select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+            .admin-input:focus, .admin-select:focus {
+                outline: none;
+                border-color: #3498db;
+            }
+
+        .admin-add-form {
+            background: #f8f9fa;
+            border: 2px dashed #bdc3c7;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .admin-nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .status-available {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .status-unavailable {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            .admin-nav-buttons {
+                flex-direction: column;
+            }
+
+            .admin-btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1 class="admin-title">🛠️ Панель администратора</h1>
+
+        <div class="admin-nav-buttons">
+            <button class="admin-btn admin-btn-primary" onclick="goBack()">← На главную</button>
+            <button class="admin-btn admin-btn-success" onclick="refreshData()">🔄 Обновить данные</button>
+        </div>
+
+        <div class="admin-section">
+            <h2 class="admin-section-title">📊 Список картриджей</h2>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Модель картриджа</th>
+                        <th>Для принтера</th>
+                        <th>Всего</th>
+                        <th>Забронировано</th>
+                        <th>Свободно</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="cartridgeTableBody">
+                    <!-- Данные будут здесь -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-add-form">
+            <h3 class="admin-section-title">➕ Добавить новый картридж</h3>
+
+            <div class="admin-form-group">
+                <label class="admin-label">Модель картриджа:</label>
+                <select class="admin-select" id="newModel">
+                    <option value="">-- Выберите модель --</option>
+                    <option value="HP 83X Black">HP 83X Black</option>
+                    <option value="HP 83X Color">HP 83X Color</option>
+                    <option value="Epson 79N Black">Epson 79N Black</option>
+                    <option value="Canon 747">Canon 747</option>
+                    <option value="HP 125A">HP 125A</option>
+                    <option value="Samsung MLT-D101S">Samsung MLT-D101S</option>
+                </select>
+            </div>
+
+            <div class="admin-form-group">
+                <label class="admin-label">Для принтера:</label>
+                <select class="admin-select" id="newPrinterId">
+                    <option value="1">LaserJet Pro M404</option>
+                    <option value="2">Color LaserJet Pro M255</option>
+                    <option value="3">WorkForce Pro WF-4740</option>
+                    <option value="4">Laser MF244dw</option>
+                </select>
+            </div>
+
+            <div class="admin-form-group">
+                <label class="admin-label">Количество:</label>
+                <input type="number" class="admin-input" id="newQuantity" placeholder="Введите количество" min="1">
+            </div>
+
+            <button class="admin-btn admin-btn-success" onclick="addNewCartridge()">✅ Добавить картридж</button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "login.html";
+        }
+
+        async function loadCartridges() {
+            try {
+                const response = await fetch('https://localhost:7061/api/cartridges');
+                const cartridges = await response.json();
+
+                const tableBody = document.getElementById('cartridgeTableBody');
+                tableBody.innerHTML = '';
+
+                cartridges.forEach(cartridge => {
+                    const row = `<tr>
+                            <td><strong>${cartridge.cartridgeModel}</strong></td>
+                            <td>${getPrinterName(cartridge.printerId)}</td>
+                            <td>${cartridge.totalQuantity}</td>
+                            <td>${cartridge.bookedQuantity}</td>
+                            <td class="${cartridge.availableQuantity > 0 ? 'status-available' : 'status-unavailable'}">
+                                ${cartridge.availableQuantity}
+                            </td>
+                            <td>
+                                <button class="admin-btn admin-btn-danger" onclick="deleteCartridge(${cartridge.id})"
+                                        title="Удалить картридж">
+                                    🗑️ Удалить
+                                </button>
+                            </td>
+                        </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                const tableBody = document.getElementById('cartridgeTableBody');
+                tableBody.innerHTML = '<tr><td colspan="6">❌ Ошибка загрузки данных</td></tr>';
+            }
+        }
+
+        function getPrinterName(printerId) {
+            const printers = {
+                1: 'LaserJet Pro M404',
+                2: 'Color LaserJet Pro M255',
+                3: 'WorkForce Pro WF-4740',
+                4: 'Laser MF244dw'
+            };
+            return printers[printerId] || `Принтер ${printerId}`;
+        }
+
+        function refreshData() {
+            loadCartridges();
+        }
+
+        async function addNewCartridge() {
+            const model = document.getElementById('newModel').value;
+            const printerId = document.getElementById('newPrinterId').value;
+            const quantity = document.getElementById('newQuantity').value;
+
+            if (!model || !quantity) {
+                alert('❌ Заполните все поля!');
+                return;
+            }
+
+            try {
+                const response = await fetch('https://localhost:7061/api/cartridges', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cartridgeModel: model,
+                        printerId: parseInt(printerId),
+                        totalQuantity: parseInt(quantity),
+                        bookedQuantity: 0
+                    })
+                });
+
+                if (response.ok) {
+                    alert('✅ Картридж успешно добавлен!');
+                    document.getElementById('newModel').value = '';
+                    document.getElementById('newQuantity').value = '';
+                    loadCartridges();
+                } else {
+                    const error = await response.json();
+                    alert('❌ Ошибка при добавлении: ' + error.message);
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('❌ Ошибка при добавлении картриджа');
+            }
+        }
+
+        async function deleteCartridge(cartridgeId) {
+            if (!confirm('⚠️ Вы уверены, что хотите удалить этот картридж?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://localhost:7061/api/cartridges/${cartridgeId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('✅ Картридж успешно удален!');
+                    loadCartridges();
+                } else {
+                    const error = await response.json();
+                    alert('❌ Ошибка при удалении: ' + error.message);
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('❌ Ошибка при удалении картриджа');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCartridges);
+    </script>
+</body>
+</html>
